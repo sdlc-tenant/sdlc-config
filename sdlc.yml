@@ -8,7 +8,7 @@ projects:
 
   - name: ecommerce
     description: E-commerce platform — shopping cart, orders, and checkout flow
-    issue_repo: ecommerce-issues
+    issue_repo: https://github.com/sdlc-tenant/ecommerce-issues
     board_url: https://github.com/orgs/sdlc-tenant/projects/1
     repos:
       - name: cart-service
@@ -20,7 +20,7 @@ projects:
 
   - name: blog
     description: Blog platform — content creation, publishing, and rendering
-    issue_repo: blog-issues
+    issue_repo: https://github.com/sdlc-tenant/blog-issues
     board_url: https://github.com/orgs/sdlc-tenant/projects/2
     repos:
       - name: blog-api
@@ -32,7 +32,7 @@ projects:
 
   - name: taskmanager
     description: Task management platform — task tracking, assignment, and notifications
-    issue_repo: taskmanager-issues
+    issue_repo: https://github.com/sdlc-tenant/taskmanager-issues
     board_url: https://github.com/orgs/sdlc-tenant/projects/3
     repos:
       - name: task-api
