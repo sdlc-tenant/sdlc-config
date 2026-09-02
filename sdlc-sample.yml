@@ -1,0 +1,29 @@
+# sdlc-sample.yml — reference template for sdlc.yml
+# Copy this file to sdlc.yml and fill in your own values.
+# Push a change to sdlc.yml — the sync workflow updates the control plane automatically.
+
+# Your GitHub organisation slug — must match exactly what you provided during onboarding.
+org: your-org-name
+
+projects:
+
+  - name: project-name                        # short identifier, no spaces
+    description: What this project does       # used by the Analyst agent to understand scope
+    issue_repo: your-issues-repo              # repo where change management issues are created
+    board_url: https://github.com/orgs/your-org/projects/1   # GitHub Project board URL
+    repos:
+      - name: your-service
+        description: What this repo does — the more specific the better for the Analyst agent
+        url: https://github.com/your-org-name/your-service
+      - name: your-worker
+        description: What this repo does
+        url: https://github.com/your-org-name/your-worker
+
+  - name: another-project
+    description: What this project does
+    issue_repo: another-issues-repo
+    board_url: https://github.com/orgs/your-org-name/projects/2
+    repos:
+      - name: another-service
+        description: What this repo does
+        url: https://github.com/your-org-name/another-service

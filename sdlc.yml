@@ -1,0 +1,43 @@
+# SDLC platform configuration.
+# org must match the GitHub org name provided during onboarding.
+# Push a change to this file — the sync workflow updates the control plane automatically.
+
+org: sdlc-tenant
+
+projects:
+
+  - name: ecommerce
+    description: E-commerce platform — shopping cart, orders, and checkout flow
+    issue_repo: ecommerce-issues
+    board_url: https://github.com/orgs/sdlc-tenant/projects/1
+    repos:
+      - name: cart-service
+        description: FastAPI service — shopping cart management, item operations, discount application
+        url: https://github.com/sdlc-tenant/cart-service
+      - name: order-service
+        description: Pure Python — order lifecycle management, status transitions, fulfilment and cancellation
+        url: https://github.com/sdlc-tenant/order-service
+
+  - name: blog
+    description: Blog platform — content creation, publishing, and rendering
+    issue_repo: blog-issues
+    board_url: https://github.com/orgs/sdlc-tenant/projects/2
+    repos:
+      - name: blog-api
+        description: FastAPI service — post and comment management, publishing workflow, author handling
+        url: https://github.com/sdlc-tenant/blog-api
+      - name: blog-engine
+        description: Pure Python — markdown parsing, tag extraction, summary generation, HTML rendering
+        url: https://github.com/sdlc-tenant/blog-engine
+
+  - name: taskmanager
+    description: Task management platform — task tracking, assignment, and notifications
+    issue_repo: taskmanager-issues
+    board_url: https://github.com/orgs/sdlc-tenant/projects/3
+    repos:
+      - name: task-api
+        description: FastAPI service — task creation, assignment, status tracking, and lifecycle management
+        url: https://github.com/sdlc-tenant/task-api
+      - name: task-processor
+        description: Pure Python — notification queuing, multi-channel dispatch, retry logic
+        url: https://github.com/sdlc-tenant/task-processor

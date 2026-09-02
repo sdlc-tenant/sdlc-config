@@ -1,0 +1,46 @@
+# Syncs the allowed-repo list from project.yml to the SDLC control plane.
+# Runs whenever project.yml is changed on main.
+# Uses GitHub OIDC — no stored secrets needed.
+
+name: Sync repos
+
+on:
+  push:
+    branches: [main]
+    paths: [sdlc.yml]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write   # required to request a GitHub OIDC token
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync allowed repos to SDLC control plane
+        env:
+          SDLC_API_URL: ${{ vars.SDLC_API_URL }}  # e.g. https://ca-sdlc-base-dev.azurecontainerapps.io
+        run: |
+          # Request a GitHub OIDC token scoped to the SDLC control plane.
+          # GitHub signs this token — no secret is stored anywhere.
+          TOKEN=$(curl -sSf \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sdlc-control-plane" \
+            | jq -r '.value')
+
+          # Extract the repo list from project.yml and POST to control plane.
+          # The control plane validates the token, identifies the tenant by GitHub org,
+          # and replaces the allowed-repo list with what is in project.yml.
+          REPOS=$(python3 -c "
+          import yaml, json
+          data = yaml.safe_load(open('project.yml'))
+          print(json.dumps(data.get('repos', [])))
+          ")
+
+          curl -sSf -X PUT "${SDLC_API_URL}/tenants/repos" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{\"repos\": ${REPOS}}"
