@@ -6,7 +6,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "sdlc-config/sdlc.yml"
+      - "sdlc.yml"
   workflow_dispatch:
     inputs:
       env:
@@ -35,4 +35,4 @@ jobs:
         uses: IndentWork/sdlc-actions/upload-sdlc@main
         with:
           env: ${{ inputs.env || 'dev' }}
-          config-path: "sdlc-config/sdlc.yml"
+          config-path: "sdlc.yml"
