@@ -1,0 +1,29 @@
+name: Test SDLC Integration
+
+# Manually triggered — validates the full end-to-end flow:
+# GitHub OIDC → FastAPI → Service Bus → Worker → Storage (hello.txt)
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment to test"
+        required: false
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  test:
+    name: "Test end-to-end (${{ inputs.env || 'dev' }})"
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write   # required to get GitHub OIDC token
+
+    steps:
+      - name: Trigger SDLC test
+        uses: IndentWork/sdlc-actions/trigger-test@main
+        with:
+          env: ${{ inputs.env || 'dev' }}
