@@ -1,0 +1,38 @@
+name: Upload SDLC Config
+
+# Triggered on push to main — syncs sdlc.yml to the SDLC platform Storage.
+# Also manually triggerable for on-demand sync.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "sdlc-config/sdlc.yml"
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment to sync to"
+        required: false
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  upload:
+    name: "Upload sdlc.yml (${{ inputs.env || 'dev' }})"
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write   # required to get GitHub OIDC token
+      contents: read    # required to read sdlc.yml
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload sdlc.yml to SDLC platform
+        uses: IndentWork/sdlc-actions/upload-sdlc@main
+        with:
+          env: ${{ inputs.env || 'dev' }}
+          config-path: "sdlc-config/sdlc.yml"
