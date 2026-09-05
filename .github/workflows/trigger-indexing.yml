@@ -1,0 +1,30 @@
+name: Trigger Indexing
+
+# Manually triggered — indexes all repos defined in sdlc.yml.
+# Run this AFTER upload-sdlc has completed successfully.
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment to index"
+        required: false
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  index:
+    name: "Trigger Indexing (${{ inputs.env || 'dev' }})"
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write  # required to get GitHub OIDC token
+      contents: read
+
+    steps:
+      - name: Trigger SDLC indexing
+        uses: IndentWork/sdlc-actions/trigger-indexing@main
+        with:
+          env: ${{ inputs.env || 'dev' }}
